@@ -81,11 +81,10 @@ Features are extracted with X3D (RGB appearance) and optical flow (RAFT/PTLFlow)
 ## Citation
 
 ```bibtex
-@article{stride2026,
+@article{mayya6628603stride,
   title={STRIDE: Spatial-Temporal Recurrent Intelligence for Detecting Events in Weakly-Supervised Video Anomaly Detection},
-  author={},
-  journal={},
-  year={2026}
+  author={Mayya, Ashwija and Khaire, Pushpajit A},
+  journal={Available at SSRN 6628603}
 }
 ```
 
