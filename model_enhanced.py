@@ -242,9 +242,11 @@ class TemporalPyramidPool(nn.Module):
         return self.projection(concatenated)
 
 
+
 class AttnBlock(nn.Module):
     def __init__(self, dim, depth, dropout, attn_dropout, heads=16, ff_mult=2):
         super().__init__()
+        local_heads = min(8, heads // 2)
         self.performer = Performer(
             dim=dim, 
             depth=depth, 
@@ -252,7 +254,7 @@ class AttnBlock(nn.Module):
             dim_head=dim // heads, 
             causal=False,
             ff_mult=ff_mult,
-            local_attn_heads=8,
+            local_attn_heads=local_heads,
             local_window_size=dim // 8,
             ff_dropout=dropout,
             attn_dropout=attn_dropout,
@@ -325,6 +327,7 @@ class EnhancedModel(nn.Module):
         lstm_layers=2,   # Number of LSTM layers
         use_convlstm=False,  # Use full ConvLSTM in conv blocks
         use_decoupled_lstm=False,  # Use hybrid DECOUPLED_LSTM in conv blocks
+        attn_heads=16,
     ):
         super().__init__()
         self.init_dim, *_, last_dim = dims
@@ -334,6 +337,7 @@ class EnhancedModel(nn.Module):
         self.use_lstm = use_lstm
         self.use_convlstm = use_convlstm
         self.use_decoupled_lstm = use_decoupled_lstm
+        self.attn_heads = attn_heads
 
         # Input projection
         self.norm0 = nn.LayerNorm(input_channels)
@@ -363,7 +367,7 @@ class EnhancedModel(nn.Module):
             elif block_type == "a":
                 for _ in range(depth):
                     self.stages.append(
-                        AttnBlock(stage_dim, 1, dropout, attn_dropout, ff_mult=ff_mult)
+                        AttnBlock(stage_dim, 1, dropout, attn_dropout, heads=attn_heads, ff_mult=ff_mult)
                     )
             
             # Add SE block after each stage
@@ -457,7 +461,7 @@ class EnhancedModel(nn.Module):
 
         # Permute back to (B, C, T, H, W) for pooling
         x = x.permute(0, 4, 1, 2, 3)
-        
+
         # Multi-scale pooling or regular pooling
         if self.use_tpp:
             # Temporal pyramid pooling + spatial pooling
@@ -466,11 +470,11 @@ class EnhancedModel(nn.Module):
             b, c, t, h, w = x.shape
             x_spatial = x.permute(0, 1, 3, 4, 2).reshape(b, c, h * w, t)
             x_spatial = x_spatial.mean(dim=3).reshape(b, c, h, w)
-            x_spatial = self.spatial_pool(x_spatial).squeeze()  # (B, C)
+            x_spatial = self.spatial_pool(x_spatial).squeeze(-1).squeeze(-1)  # (B, C) -- dim-targeted, safe at B=1
             # Combine both
             x = (x_temporal + x_spatial) / 2
         else:
-            x = self.pooling(x).squeeze()
+            x = self.pooling(x).squeeze(-1).squeeze(-1).squeeze(-1)  # (B, C) -- dim-targeted, safe at B=1
 
         # Final classification
         x = self.drop_out(x)
