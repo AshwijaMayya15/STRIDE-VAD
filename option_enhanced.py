@@ -49,6 +49,7 @@ def parse_args():
     parser.add_argument('--label_smoothing', type=float, default=0.1, help='Label smoothing epsilon')
     parser.add_argument('--max_grad_norm', type=float, default=1.0, help='Max gradient norm for clipping')
     parser.add_argument('--weight_decay', type=float, default=0.3, help='Weight decay (default: 0.3)')
+    parser.add_argument('--attn_heads', type=int, default=16, help='Performer attention heads')
     
     # Testing enhancements
     parser.add_argument('--use_tta', action='store_true', default=False, help='Use Test-Time Augmentation')
