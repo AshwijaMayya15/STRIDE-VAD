@@ -974,6 +974,7 @@ if __name__ == '__main__':
             lstm_layers=args.lstm_layers,
             use_convlstm=args.use_convlstm,
             use_decoupled_lstm=args.use_decoupled_lstm,
+            attn_heads=args.attn_heads,
         )
     else:
         model = EnhancedModel(
