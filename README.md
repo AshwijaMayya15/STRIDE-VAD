@@ -6,7 +6,6 @@ STRIDE is a weakly-supervised video anomaly detection (VAD) model evaluated on U
 
 - Video-level ROC-AUC **92.13 ± 0.57** / PR-AUC **92.18 ± 0.71** on UCF-Crime (15-seed mean)
 - Video-level ROC-AUC **89.52 ± 0.54** / PR-AUC **93.09 ± 0.49** on XD-Violence (15-seed mean)
-- DECOUPLED-LSTM is the component that drives the gain over the STEAD baseline
 
 ## Repository Structure
 
