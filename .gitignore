@@ -1,0 +1,59 @@
+# ---- data / features (never commit) ----
+*.npy
+*.npz
+X3D_Videos/
+X3D_Clips*/
+Emb_Loc*/
+*_x3d_train.txt
+*_x3d_test.txt
+*_flow_train.txt
+*_flow_test.txt
+
+# ---- checkpoints / trained weights ----
+*.pkl
+*.pth
+*.pt
+saved_models/
+ckpt1/
+ckpt_loc/
+runs/
+
+# ---- logs / job output ----
+logs/
+*.out
+*.err
+slurm-*.out
+stride_reports_*.out
+stride_reports_*.err
+
+# ---- generated reports / figures (regenerate, don't commit) ----
+stride_ucf_reports/
+stride_xd_reports/
+figures/
+figures/
+*.png
+*.pdf
+harness_results.json
+
+# ---- python ----
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.ipynb_checkpoints/
+.Python
+build/
+dist/
+
+# ---- environment ----
+.venv/
+venv/
+env/
+*.env
+.conda/
+
+# ---- OS / editor ----
+.DS_Store
+.vscode/
+.idea/
+*.swp
