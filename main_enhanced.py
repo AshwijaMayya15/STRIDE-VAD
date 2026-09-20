@@ -117,6 +117,7 @@ if __name__ == '__main__':
     print(f"Early stop patience: {args.early_stop_patience}")
     print(f"Using Focal Loss: {args.use_focal}")
     print(f"Using Mixup: {args.use_mixup}")
+    print(f"Using attn heads: {args.attn_heads}")
     print(f"Using SE blocks: {args.use_se}")
     print(f"Using TPP: {args.use_tpp}")
     print(f"Using LSTM: {args.use_lstm}")
@@ -124,6 +125,7 @@ if __name__ == '__main__':
         print(f"  LSTM Hidden: {args.lstm_hidden}")
         print(f"  LSTM Layers: {args.lstm_layers}")
     print(f"Using ConvLSTM: {args.use_convlstm}")  # ADD THIS LINE
+    print(f"Using Decoupled LSTM: {args.use_decoupled_lstm}")  # ADD THIS LINE
     print("=" * 60)
 
     # Create dataloaders
@@ -147,7 +149,8 @@ if __name__ == '__main__':
             lstm_hidden=args.lstm_hidden,
             lstm_layers=args.lstm_layers,
             use_convlstm=args.use_convlstm, # ADD THIS LINE
-            use_decoupled_lstm=args.use_decoupled_lstm
+            use_decoupled_lstm=args.use_decoupled_lstm,
+            attn_heads=args.attn_heads,
         )
     elif args.model_arch == 'fast' or args.model_arch == 'tiny':
         model = EnhancedModel(
