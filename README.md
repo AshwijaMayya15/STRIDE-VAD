@@ -1,4 +1,4 @@
-# STRIDE — Spatial-Temporal Anomaly Detection
+# STRIDE: Spatial-Temporal Recurrent Intelligence for Detecting Events in Weakly-Supervised Video Anomaly Detection
 
 Weakly-supervised video anomaly detection. X3D-L backbone with a configurable
 temporal block (plain Conv, ConvLSTM, or DECOUPLED-LSTM), optional BiLSTM
