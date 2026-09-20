@@ -2,12 +2,6 @@
 """
 Simple 15-Seed Training Script
 Run: python train_15_seeds.py
-
-Expected:
-- Time: 30-60 hours
-- Best AUC: 91.5-92.0%
-- Mean AUC: 91.1-91.4%
-- Should beat 91.3% target!
 """
 
 # Fix MKL threading issue
@@ -55,7 +49,7 @@ def run_training(seed, config):
         '--mixup_alpha', str(config['mixup_alpha']),
         '--label_smoothing', str(config['label_smoothing']),
         '--max_grad_norm', str(config['max_grad_norm']),
-        '--use_convlstm',   # DECOUPLED_LSTM in ConvBlocks (spatial conv + temporal LSTM)             # BiLSTM inter-stage bridge (runs independently of ConvBlock type)
+        '--use_convlstm',
         '--use_focal',
         '--use_mixup',
         '--use_tpp',
@@ -64,6 +58,8 @@ def run_training(seed, config):
         '--warmup', str(config['warmup']),
         '--seed', str(seed),
         '--model_arch', 'base',
+        '--attn_heads', '8',
+        '--lstm_hidden', '64',
         '--comment', 'convlstm_15seeds'
     ]
     
